@@ -1,0 +1,221 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx} %package to manage images
+\usepackage{amsmath}
+
+\usepackage{listings}
+\usepackage{placeins}
+\usepackage{subcaption}
+
+
+\usepackage[rightcaption]{sidecap}
+\usepackage{wrapfig}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          
+  showtabs=false,                 
+  stepnumber=2,                    
+  stringstyle=\color{mymauve},     
+  tabsize=2,                      
+  title=\lstname                   
+}
+
+
+\title{Prosjekt 2}
+\author{Live Wang Jensen}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+sfdskjf
+
+\end{abstract}
+
+\section{Introduksjon}
+Vi skal i dette prosjektet løse Schrödingerligningen for to elektroner i en tre-dimensjonal harmonisk oscillator brønn, både med og uten Coulomb-vekselvirkning. Vi kommer til å omforme og diskretisere Schrödingerligningen slik at vi ender opp med et egenverdi-problem. Dette kan løses med Jacobis metode. Det utvikles derfor en egen kode som implementerer denne metoden.
+
+\section{Teori}
+Vi skal i det følgende anta at de to elektronene befinner seg i et tre-dimensjonalt harmonisk oscillator-potensial. Coulomb-vekselvirkningen mellom elektronene fører til at de frastøter hverandre, og vi antar sfærisk symmetri. Som kjent består Schrödingerligningen av en angulær del og en radiell del. Den angulære delen kan løses analytisk for en harmonisk oscillator. Den radielle delen må løses numerisk, og vi skal derfor se nærmere på denne. Radialligningen er gitt som 
+
+\begin{equation}
+  -\frac{\hbar^2}{2 m} \left ( \frac{1}{r^2} \frac{d}{dr} r^2
+  \frac{d}{dr} - \frac{l (l + 1)}{r^2} \right )R(r) 
+     + V(r) R(r) = E R(r).
+\end{equation}
+
+hvor $V(r)$ er harmonisk oscillator-potensialet (heretter kalt H.O.) gitt ved
+\begin{equation}
+V(r) = \frac{1}{2}kr^2
+\end{equation}
+
+hvor $k = m\omega^2$. $E$ er energien til H.O. potensialet, gitt ved
+\begin{equation}
+E_{nl} = \hbar\left(2n + l 0 \frac{3}{2} \right)
+\end{equation}
+
+hvor hovedkvantetallet $n = 0,1,2,...$ og banespinnkvantetallet $l = 0,1,2,...$. Her er $\omega$ vinkelfrekvensen.\\
+
+Siden vi i dette tilfellet bruker kulekoordinater, så må avstanden $r$ fra sentrum befinne seg i intervallet $r = [0, \infty)$. Vi definerer $u(r) = rR(r)$, slik at vi får 
+\begin{equation}
+R(r) = \frac{1}{r}u(r)
+\end{equation}
+
+Setter vi dette inn i radialligningen, ender vi opp med uttrykket 
+\begin{equation}
+  -\frac{\hbar^2}{2 m} \frac{d^2}{dr^2} u(r) 
+       + \left ( V(r) + \frac{l (l + 1)}{r^2}\frac{\hbar^2}{2 m}
+                                    \right ) u(r)  = E u(r)
+\end{equation}
+
+Hvor vi har Dirichlet grensebetingelser gitt ved $u(0) = 0$ og $u(\infty) = 0$. I kvantefysikk kan tallene fort bli veldig små, derfor vil det være en fordel om denne ligningen besto av dimensjonsløse variabler. Vi kan oppnå dette ved å introdusere den dimensjonsløse variabelen $\rho = r/\alpha$, hvor $\alpha$ er en fritt valgt konstant med enheten \textit{lengde}. Setter vi $r = \rho \alpha$ inn i ligningen, får vi
+
+\begin{equation}
+  -\frac{\hbar^2}{2 m \alpha^2} \frac{d^2}{d\rho^2} u(\rho) 
+       + \left ( V(\rho) + \frac{l (l + 1)}{\rho^2}
+         \frac{\hbar^2}{2 m\alpha^2} \right ) u(\rho)  = E u(\rho)
+\end{equation} 
+
+Vi skal heretter bruke at banespinnkvantetallet $l = 0$. H.O. potensialet kan skrives som funksjon av $\rho$ slik at $V(\rho) = \frac{1}{2}k\alpha^2\rho^2$. Dette forenkler ligningen vår til
+\begin{equation}
+  -\frac{\hbar^2}{2 m \alpha^2} \frac{d^2}{d\rho^2} u(\rho) 
+       + \frac{k}{2} \alpha^2\rho^2u(\rho)  = E u(\rho)
+\end{equation}
+
+Multipliserer så leddet $\frac{2m\alpha^2}{\hbar}$ på hver side av ligningen og får
+\begin{equation}
+  -\frac{d^2}{d\rho^2} u(\rho) 
+       + \frac{mk}{\hbar^2} \alpha^4\rho^2u(\rho)  = \frac{2m\alpha^2}{\hbar^2}E u(\rho)
+\end{equation}
+
+Siden konstanten $\alpha$ kan bestemmes fritt, kan vi sette 
+\[\frac{mk}{\hbar^2}\alpha^4 = 1 \]
+som gir oss at
+\[\alpha = \left(\frac{\hbar^2}{mk} \right)^{1/4} \]
+Vi definerer så at
+\[\lambda = \frac{2m\alpha^2}{\hbar^2}E \]
+og ender opp med en ligning på formen
+\begin{equation}
+  -\frac{d^2}{d\rho^2} u(\rho) + \rho^2u(\rho)  = \lambda u(\rho)
+\end{equation}
+
+Denne ligningen kan løses numerisk. La oss først ta for oss uttrykket for den andrederiverte som funksjon av $u$
+\begin{equation}
+    u''=\frac{u(\rho+h) -2u(\rho) +u(\rho-h)}{h^2} +O(h^2)
+\end{equation}
+her er $h$ er steglengden, gitt ved
+
+\begin{equation}
+  h=\frac{\rho_N-\rho_0 }{N}.
+\end{equation}
+hvor $N$ er antall mesh-points, $\rho_{min} = \rho_0$ og $\rho_{max} = \rho_N$. Vi vet at $\rho_{min} = 0$, mens $\rho_{max}$ må vi bestemme grensen på selv, da $\rho_{max} = \infty$ vil være litt vanskelig for en datamaskin å håndtere. Verdien til $\rho$ ved et punkt $i$ vil være
+\[\rho_i = \rho_0 + ih \quad i = 1,2,...,N \]
+
+Vi er nå i stand til å diskretisere Schrödingerligningen ved hjelp av $\rho_i$, slik at 
+\[
+-\frac{u(\rho_i+h) -2u(\rho_i) +u(\rho_i-h)}{h^2}+\rho_i^2u(\rho_i)  = \lambda u(\rho_i),
+\]
+som på en mer kompakt form kan skrives 
+
+\[ -\frac{u_{i+1} -2u_i +u_{i-1}}{h^2}+\rho_i^2u_i= \lambda u_i \]
+eller
+\[-\frac{u_{i+1} -2u_i +u_{i-1} }{h^2}+V_iu_i  = \lambda u_i  \]
+
+Her er $V_i = \rho_i^2$ er H.O. potensialet vårt. Denne ligningen kan nå skrives som en matriseligning. Vi definerer først diagonalelementene som 
+\[ d_i = \frac{2}{h^2} + V_i \]
+Ikke-diagonal elementene er \textit{identiske} og defineres som
+\[e_i = -\frac{1}{h^2} \]
+
+Ligningen vår kan nå skrives som 
+\begin{equation}
+d_iu_i+e_{i-1}u_{i-1}+e_{i+1}u_{i+1}  = \lambda u_i,
+\end{equation}
+
+hvor $u_i$ er ukjent. Settes dette opp på matriseform ser det ut som følger
+
+\begin{equation}
+    \begin{bmatrix}d_0 & e_0 & 0   & 0    & \dots  &0     & 0 \\
+                                e_1 & d_1 & e_1 & 0    & \dots  &0     &0 \\
+                                0   & e_2 & d_2 & e_2  &0       &\dots & 0\\
+                                \dots  & \dots & \dots & \dots  &\dots      &\dots & \dots\\
+                                0   & \dots & \dots & \dots  &\dots  e_{N-1}     &d_{N-1} & e_{N-1}\\
+                                0   & \dots & \dots & \dots  &\dots       &e_{N} & d_{N}
+             \end{bmatrix}  \begin{bmatrix} u_{0} \\
+                                                              u_{1} \\
+                                                              \dots\\ \dots\\ \dots\\
+                                                              u_{N}
+             \end{bmatrix}=\lambda \begin{bmatrix} u_{0} \\
+                                                              u_{1} \\
+                                                              \dots\\ \dots\\ \dots\\
+                                                              u_{N}
+             \end{bmatrix}
+\end{equation} 
+
+eller, om du liker å kalle en spade for en spade:
+
+\begin{equation}
+    \begin{bmatrix} \frac{2}{h^2}+V_1 & -\frac{1}{h^2} & 0   & 0    & \dots  &0     & 0 \\
+                                -\frac{1}{h^2} & \frac{2}{h^2}+V_2 & -\frac{1}{h^2} & 0    & \dots  &0     &0 \\
+                                0   & -\frac{1}{h^2} & \frac{2}{h^2}+V_3 & -\frac{1}{h^2}  &0       &\dots & 0\\
+                                \dots  & \dots & \dots & \dots  &\dots      &\dots & \dots\\
+                                0   & \dots & \dots & \dots  &-\frac{1}{h^2}  &\frac{2}{h^2}+V_{N-2} & -\frac{1}{h^2}\\
+                                0   & \dots & \dots & \dots  &\dots       &-\frac{1}{h^2} & \frac{2}{h^2}+V_{N-1}
+             \end{bmatrix}
+\label{eq:matrixse} 
+\end{equation}
+
+Dette er et \textbf{egenverdiproblem} som kan løses med Jacobis metode. 
+
+\section{Fremgangsmåte}
+sdf
+
+
+
+\section{Vedlegg}
+Alle koder og resultater som er brukt i rapporten finnes på Github-adressen: https://github.com/livewj/Project-1
+
+
+
+\bibliography{Referanser}
+\begin{thebibliography}{9}
+
+\bibitem{squires}
+  Kursets offisielle Github-side $\textit{FYS3150 - Computational Physics}$
+  https://github.com/CompPhysics/ComputationalPhysics,
+  03.09.2016  
+  
+\bibitem{}
+  Slides fra kursets offisielle nettside: "Matrices and linear algebra" http://compphysics.github.io/ComputationalPhysics/doc/web/course, 14.09.16
+  
+\bibitem{}
+  
+    
+\end{thebibliography}
+
+\end{document}
