@@ -25,8 +25,8 @@ ofstream ofile;
 
 
 //declare functions
-void jacobi_method ( double ** A, double ** R, int n )
-double maxoffdiag( mat A, int *k, int *l, int n)
+void jacobi_method ( double ** A, double ** R, int n );
+double maxoffdiag( mat A, int *k, int *l, int n);
 
 //function that finds the maximal off-diagonal element i the matrix A
 
@@ -34,7 +34,7 @@ double maxoffdiag(mat A, int *k, int *l, int n) {
 	double max_off = 0.; //starting optimistic with zero as maximum value
 	double A_ij;
 	//loop over non-diagonal matrix elements in A:
-	for (int i=0; i<n, i++) {
+	for (int i=0; i<n; i++) {
 		for (int j=0; j<n; j++) {
 			A_ij = fabs(A(i,j)); //store absolute value
 			if (A_ij > max_off) {
@@ -50,7 +50,7 @@ double maxoffdiag(mat A, int *k, int *l, int n) {
 //this functions rotates the matrix A by using Jacobi's method
 //and saves the eigenvalues in matrix R as diagonal elements
 
-void jacobi_method ( double ** A, double ** R, int n ) {
+void jacobi_method ( mat &A, mat &R, int k, int l, int n ) {
 	//declare variables
 	double tau; //cot(2theta)
 	double t; //tan
@@ -58,17 +58,17 @@ void jacobi_method ( double ** A, double ** R, int n ) {
 	double c; //cos
 
 	//find the values of cos and sin
-	if ( A(k,l)) != 0.0 ) {
+	if ( A(k,l) != 0.0 ) {
 		tau = (A(l,l) - A(k,k))/(2*A(k,l));
 		//now t can take two values, we want the smallest one  NBNBNBNBNBOBS
 		if ( tau >= 0.0) {
-			t = 1.0/(tau + sqrt(1 + tau*tau));
+			t = 1.0/(fabs(tau) + sqrt(1. + tau*tau));
 		}
 		else {
-			t = -1.0/(tau + sqrt(1 + tau*tau));
+			t = -1.0/(fabs(tau) + sqrt(1. + tau*tau));
 		}
 
-		c = 1./(sqrt(1 + t*t));
+		c = 1./(sqrt(1. + t*t));
 		s = t*c;
 	}
 	//no rotation needed if element already is equal to 0
@@ -112,12 +112,12 @@ void jacobi_method ( double ** A, double ** R, int n ) {
 int main(){
 
 	//declare variables
-	int n, counter;
-	int counter_max = 1e8;
+	int n;
 	int k, l;
 	double epsilon = 1.0e-8; //tolerance
-	double max_number_iterations = (double) n * (double) n * (double) n; 
+	double max_number_iterations = 1e6; 
 	double rho_0, rho_max;
+	double CPU_time;
 	double h; //step
 	double e; //non-diagonal element
 	int iterations; //counting the number of iterations
@@ -125,20 +125,20 @@ int main(){
 	rowvec N; //N is a vector
 
 	rho_0 = 0.;
-	rho_max = 3.;
-	N << 10 << 50 << 100 << 200 << 300 << 500;  //different sizes of matrix 
+	rho_max = 5.;
+	N << 10 << 50 << 100 << 200 << 300 << 310;  //different sizes of matrix 
 
-	outfile = 'Jacobi_results.txt';
+	outfile = "Jacobi.txt";
 	ofile.open(outfile);
 	ofile << setiosflags(ios::showpoint | ios::uppercase);
-	ofile << 'rho_max:' << rho_max << 'tolerance' << epsilon << endl;
-	ofile << 'n:      Eigenvalues:    ' << endl;
+	ofile << "rho_max: " << rho_max <<  endl;
+	ofile << "tolerance: " << epsilon << endl;
+	ofile << "n:            Eigenvalues:              Time:               Rotations:"<< endl;
 
 
-	int test
-	size = length(N);
-	for (int j=0; j<size; j++) {
-		n = N(j);
+	for (int j=0; j<2; j++) { //length of N is 6
+		n = N(j); //size of matrix
+		cout << n << endl;
 		iterations = 0; //counting the number of iterations
 		h = (rho_max - rho_0)/n;
 		e = -1./(h*h);
@@ -148,22 +148,13 @@ int main(){
 		mat A(n-1, n-1);
 		A.zeros(); //setting up the matrix A
 		mat R(n-1,n-1);
-		// Setting up the eigenvector matrix (as the identity matrix)
-		for ( int i = 0; i < n; i++ ) { 
-			for ( int j = 0; j < n; j++ ) {
-				if ( i == j ) { 
-					R(i,j) = 1.0;
-				} else { 
-					R(i,j) = 0.0;
-				}
-			}
-		}
+		R.eye(); //R is set to identity matrix
 
 		//setting up vectors
-		for (int i=0; i<=n; i++) {
+		for (int i = 0; i <= n; i++) {
 			rho(i) = rho_0 + i*h;
 		}
-		for (int i=0, i<n-1, i++) {
+		for (int i=0; i<n-1; i++) {
 			d(i) = 2/(h*h) + rho(i+1)*rho(i+1);
 		}
 
@@ -176,7 +167,11 @@ int main(){
 			}
 		}
 
-	mat B = A; //used i Armadillo method
+	mat B = A; //used in Armadillo method
+
+	//start timer
+    clock_t start, finish;
+    start = clock();
 
 	//compute the eigenvectors with Jacobi's method:
 	double max_off = maxoffdiag(A, &k, &l, n-1);
@@ -186,33 +181,30 @@ int main(){
 		iterations++;
 	}
 
+	//stop timer
+    finish = clock();
+    CPU_time = ((double) (finish - start)/CLOCKS_PER_SEC );
+
+
 	//we now have the eigenvalues stored in the diagonal in matrix A
 	//fill up eigenvalues vector
-	for (i=0; i<n-1; i++) {
+	for (int i=0; i<n-1; i++) {
 		eigenvalues(i) = A(i,i);
 	}
 	//sort in ascending order
-	eigenvalues = sort(eigenvalues)
+	eigenvalues = sort(eigenvalues);
 
 	//finally, write results to file
-	
-
-
-
-
+	ofile << setprecision(5) << n << ",    ";
+	ofile << "(" << setprecision(5) << eigenvalues(0) << ", ";
+	ofile << setprecision(5) << setw(10) << eigenvalues(1) << ", ";
+	ofile << setprecision(5) << setw(10) << eigenvalues(2) << ")";
+	ofile << setw(7) << setprecision(6) << CPU_time << " sec.";
+	ofile << setw(7) << setprecision(6) << iterations << endl;
 	}
-
-
-
-
-
+	ofile.close();
+	return 0;
 }
-
-
-
-{
-
-
 
 
 
