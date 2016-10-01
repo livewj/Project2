@@ -62,6 +62,27 @@ sfdskjf
 Vi skal i dette prosjektet løse Schrödingerligningen for to elektroner i en tre-dimensjonal harmonisk oscillator brønn, både med og uten Coulomb-vekselvirkning. Vi kommer til å omforme og diskretisere Schrödingerligningen slik at vi ender opp med et egenverdi-problem. Dette kan løses med Jacobis metode. Det utvikles derfor en egen kode som implementerer denne metoden.
 
 \section{Teori}
+La oss starte med å se på en såkalt \textbf{unitær transformasjon}. En slik transformasjon bevarer ortogonaliteten til egenvektorene. Anta at vi har en ortogonal basis
+
+\[ \textbf{v}_i = \begin{bmatrix} v_{i1} \\
+												\dots \\
+												\dots \\
+												v_{in}
+												\end{bmatrix}   \]
+												
+hvor 
+\[ \textbf{v}_j^T \textbf{v}_i = \delta_{ij} \]
+
+En unitær transformasjon på formen
+
+\[\textbf{w}_i = \textbf{Uv}_i \]
+
+vil bevare både prikk-produktet og ortogonaliteten. Dette kan vises ved
+
+\[ \textbf{w}_j^T \textbf{w}_i = (\textbf{Uv}_j)^T \textbf{w}_i = \textbf{v}_j^T \textbf{U}^T \textbf{Uv}_i = \textbf{v}_j^T I \textbf{v}_i = \textbf{v}_j^T \textbf{v}_i = \delta_{ij} \]
+
+
+
 Vi skal i det følgende anta at de to elektronene befinner seg i et tre-dimensjonalt harmonisk oscillator-potensial. Coulomb-vekselvirkningen mellom elektronene fører til at de frastøter hverandre, og vi antar sfærisk symmetri. Som kjent består Schrödingerligningen av en angulær del og en radiell del. Den angulære delen kan løses analytisk for en harmonisk oscillator. Den radielle delen må løses numerisk, og vi skal derfor se nærmere på denne. Radialligningen er gitt som 
 
 \begin{equation}
@@ -412,19 +433,19 @@ I tabell \ref{tab:jacobi_interact} vises resultatene for tilfellet \textbf{med} 
 \FloatBarrier
 \begin{table}[!ht]
 \centering
-\caption{I tabellen vises de numerisk beregnede eigenverdiene til grunntilstanden for ulike verdier av $\omega_R$, sammen med den tilnærmede og eksakte løsningen.}
+\caption{I tabellen vises de numerisk beregnede eigenverdiene til grunntilstanden for ulike verdier av oscillatorrekvensen $\omega_R$, sammen med den tilnærmede og eksakte løsningen.}
 \label{tab:jacobi_interact}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
-\textbf{Oscillatorfrekvens, $\omega$}$_R$      &  $\textbf{Eigenverdi (numerisk)}$ &$\textbf{Eigenverdi (analytisk) }$ \\ 
+$\omega_R$  &  $\textbf{Eigenverdi (numerisk)}$   \\ 
 \hline
-0.01     & 0.8407035  & (2.919484,   6.583038,   9.936657)   & 0.00022600     \\ 
+0.01     & 0.8407035     \\ 
 \hline
-0.5 & 2.230821 &(2.996871, 6.984342, 10.96193)    & dfk             \\ 
+0.5 & 2.230821           \\ 
 \hline
-1 & 4.057058 & (2.999219, 6.996094, 10.99066)      & 1.0987        \\ 
+1 & 4.057058       \\ 
 \hline
-5 & 17.42822 & (2.999805, 6.999026, 10.99781)      & 17.236    \\ 
+5 & 17.42822    \\ 
 \hline   
 \end{tabular}
 \end{table}
@@ -451,6 +472,10 @@ The slow convergence is related to the fact that when a new rotation is performe
  2d) Kommenter resultatene for den laveste egenverdien (tilstanden) som funksjon av ulike omega. Hva er trenden? tilstanden øker jo større omega (oscillatorfrekvens). Hvorfor? 
  Sammenlign med resultatene fra artikkelen...
  
+
+\section{Konklusjon}
+fgddfg
+
 
 \section{Vedlegg}
 Alle koder og resultater som er brukt i rapporten finnes på Github-adressen: https://github.com/livewj/Project-1
