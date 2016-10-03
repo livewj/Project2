@@ -54,12 +54,12 @@
 \maketitle
 
 \begin{abstract}
-sfdskjf
+Vi skal i dette prosjektet se nærmere på bølgefunksjonene til hhv ett og to elektroner i et harmonisk-oscillator potensial. Disse finnes ved å løse en tredimensjonal Schrödingerligning. Ligningen kan skrives om til en egenverdiligning som løses ved hjelp av Jacobis metode. Vi har sett at denne metoden er tidkrevende i forhold til Armadillos innebygde funksjon \texttt{eig$\_$sym}. Ved bruk av Jacobis metode fant vi at de tre laveste egenverdiene stemte overens med den gitte løsningen {3, 7, 11} med opp til fire gjeldende siffere etter desimalen ved $n \approx 300$. Sammenligningen av bølgefunksjonene for to elektroner med og uten Coulomb-vekselvirkning viser at bølgefunksjonene \textit{med} vekselvirkning er mer utsmørt i radiell retning, som forventet. 
 
 \end{abstract}
 
 \section{Introduksjon}
-Vi skal i dette prosjektet løse Schrödingerligningen for to elektroner i en tre-dimensjonal harmonisk oscillator brønn, både med og uten Coulomb-vekselvirkning. Vi kommer til å omforme og diskretisere Schrödingerligningen slik at vi ender opp med et egenverdi-problem. Dette kan løses med Jacobis metode. Det utvikles derfor en egen kode som implementerer denne metoden.
+Vi skal i dette prosjektet løse Schrödingerligningen for to elektroner i en tre-dimensjonal harmonisk oscillator brønn, både med og uten Coulomb-vekselvirkning. Vi kommer til å omforme og diskretisere Schrödingerligningen slik at vi ender opp med et egenverdi-problem. Dette kan løses med Jacobis metode. Det utvikles derfor en egen kode som implementerer denne metoden. Vi skal også bruke Armadillos egen funksjon \texttt{eig$\_$sym} til å løse samme problemstilling. De to løsningsmetodene kan deretter sammenlignes når det kommer til beregningstid.
 
 \section{Teori}
 La oss starte med å se på en såkalt \textbf{unitær transformasjon}. En slik transformasjon bevarer ortogonaliteten til egenvektorene. Anta at vi har en ortogonal basis
@@ -98,7 +98,7 @@ V(r) = \frac{1}{2}kr^2
 
 hvor $k = m\omega^2$. $E$ er energien til H.O. potensialet, gitt ved
 \begin{equation}
-E_{nl} = \hbar\left(2n + l 0 \frac{3}{2} \right)
+E_{nl} = \hbar\left(2n + l + \frac{3}{2} \right)
 \end{equation}
 
 hvor hovedkvantetallet $n = 0,1,2,...$ og banespinnkvantetallet $l = 0,1,2,...$. Her er $\omega$ vinkelfrekvensen.\\
@@ -198,19 +198,6 @@ hvor $u_i$ er ukjent. Settes dette opp på matriseform ser det ut som følger
              \end{bmatrix}
 \end{equation} 
 
-eller, om du liker å kalle en spade for en spade:
-
-\begin{equation}
-    \begin{bmatrix} \frac{2}{h^2}+V_1 & -\frac{1}{h^2} & 0   & 0    & \dots  &0     & 0 \\
-                                -\frac{1}{h^2} & \frac{2}{h^2}+V_2 & -\frac{1}{h^2} & 0    & \dots  &0     &0 \\
-                                0   & -\frac{1}{h^2} & \frac{2}{h^2}+V_3 & -\frac{1}{h^2}  &0       &\dots & 0\\
-                                \dots  & \dots & \dots & \dots  &\dots      &\dots & \dots\\
-                                0   & \dots & \dots & \dots  &-\frac{1}{h^2}  &\frac{2}{h^2}+V_{N-2} & -\frac{1}{h^2}\\
-                                0   & \dots & \dots & \dots  &\dots       &-\frac{1}{h^2} & \frac{2}{h^2}+V_{N-1}
-             \end{bmatrix}
-\label{eq:matrixse} 
-\end{equation}
-
 Dette er et \textbf{egenverdiproblem} som kan løses med Jacobis metode. 
 
 \subsection{To elektroner som vekselvirker}
@@ -231,7 +218,7 @@ hvor bølgefunksjonen $u$ nå er funksjon av \textit{begge} elektronenes posisjo
 \left(  -\frac{\hbar^2}{m} \frac{d^2}{dr^2} -\frac{\hbar^2}{4 m} \frac{d^2}{dR^2}+ \frac{1}{4} k r^2+  kR^2\right)u(r,R)  = E^{(2)} u(r,R)
 \end{equation}
 
-Vi kan dele bølgefunksjonen en $r$-avhengig del og en $R$-avhengig del, slik at $u(r,R) = \psi (r) \phi (R) $. Den totale energien er da summen av den relative energien og massesenter-energien, $E^{(2)} = E_r + E_R$. Coulombkreftene som virker mellom de to elektronene er gitt som
+Vi kan dele bølgefunksjonen i en $r$-avhengig del og en $R$-avhengig del, slik at $u(r,R) = \psi (r) \phi (R) $. Den totale energien er da summen av den relative energien og massesenter-energien, $E^{(2)} = E_r + E_R$. Coulombkreftene som virker mellom de to elektronene er gitt som
 \begin{equation}
 V(r_1, r_2) = \frac{\beta e^2}{|\textbf{r}_1 - \textbf{r}_2|} = \frac{\beta e^2}{r}
 \end{equation}
@@ -268,7 +255,7 @@ slik at vi kan skrive Schrödingers ligning som
 Vi kan se på $\omega_r$ som en størrelse som sier noe om \textit{styrken} på oscillator-potensialet.
 
 
-\section{Fremgangsmåte}
+\section{Løsningsmetoder}
 \subsection{Jacobis metode}
 Jeg skal her ta for meg hovedtrekkene i Jacobis metode, som også kan finnes i kursets lærebok [3].
 La oss ta for oss en $n \times n$ matrise $S$, som har den egenskapen at den utfører en ortogonal transformasjon på elementene med en gitt vinkel $\theta$
@@ -305,18 +292,18 @@ hvor vinkelen $\theta$ er virklårlig bestemt. Trikset nå er å velge $\theta$ 
 
 I en $2 \times 2$ matrise ville en slik similær transformasjon tatt seg ut på følgende måte: 
 
-\[\begin{pmatrix} 
+\[\begin{bmatrix} 
 b_{kk} &0 \\ 
-0& b_{ll} \end{pmatrix} =
- \begin{pmatrix} 
+0& b_{ll} \end{bmatrix} =
+ \begin{bmatrix} 
  c & -s\\ 
- s & c \end{pmatrix}
- \begin{pmatrix} 
+ s & c \end{bmatrix}
+ \begin{bmatrix} 
  a_{kk} & a_{kl}\\
-  a_{lk}& a_{ll} \end{pmatrix}
-  \begin{pmatrix} 
+  a_{lk}& a_{ll} \end{bmatrix}
+  \begin{bmatrix} 
   c & s\\ 
-  -s &c \end{pmatrix}\]
+  -s &c \end{bmatrix}\]
 
 hvor $c = cos\theta$ og $s = sin\theta$. Vi krever at elementene på ikke-diagonalen skal være $b_{kl} = b_{lk} = 0$, som fører til at
 
@@ -348,11 +335,11 @@ som gir oss to verdier for $t$:
 og at
 \[ c = \frac{1}{\sqrt{1 + t^2}} \quad \textrm{og} \quad s = tc \]
 
-Dersom vi velger den \textit{minste} absoluttverdien av de to løsningene vi har for $t$, sikrer vi oss at |$\theta | \le \pi /4$, som fører til at forskjellen mellom matrisene $B$ og $A$ blir minimal, siden
+Dersom vi velger den \textit{minste} absoluttverdien av de to løsningene vi har for $t$, sikrer vi oss at $| \theta | \le \pi /4$, som fører til at forskjellen mellom matrisene $B$ og $A$ blir minimal, siden
 
 \[||B - A||_F^2 = 4(1-c) \sum_{i=1, i\neq k,l}^n (a_{ik}^2 + a_{il}^2) + \frac{2a_{kl}^2}{c^2}. \]
 
-Denne fremgangsmåten har blitt implementert i koden \texttt{Jacobi.cpp}, som finner eigenverdiene og eigenvektorene til matrisen $A$. Dette gjøres for ulike verdier av $n$, som representerer størrelsen på matrisen vår. I tillegg beregnes CPU-tiden for de ulike verdiene av $n$, og resultatene skrives til slutt til filen \textit{Jacobi.txt}. Figur \ref{fig:jacobi} viser hovedtrekkene i metoden. Siden målet vårt er å få alle ikke-diagonal elementene til å bli null, setter vi en toleranse \textit{epsilon} = $10^{-8}$. Funksjonen \texttt{maxoffdiag} finner absoluttverdien til det \textbf{største} ikke-diagonal elementet i matrisen A. Dersom denne verdien er større enn tolerasen vi har satt, og vi samtidig \textbf{ikke} har nådd iterasjonsgrensen vår (her satt til $10^6$ iterasjoner), anvender vi Jacobis metode på $A$. Variabelen \textit{iterations} fungerer som en teller som holder oversikt over hvor mange iterasjoner, eller rotasjoner, som er blitt utført på $A$. Slik fortsetter while-løkken frem til elementene på ikke-diagonalen har blitt mindre enn toleransen vår, eller til iterasjonsgrensen er nådd. CPU-tiden til denne prosessen måles enkelt ved hjelp av funksjonen \texttt{clock()}, hentet fra biblioteket \texttt{time.h}.
+Denne fremgangsmåten har blitt implementert i koden \texttt{Jacobi.cpp}, som finner egenverdiene og egenvektorene til matrisen $A$. Dette gjøres for ulike verdier av $n$, som representerer størrelsen på matrisen vår. I tillegg beregnes CPU-tiden for de ulike verdiene av $n$, og resultatene skrives til slutt til filen \textit{Jacobi.txt}. Figur \ref{fig:jacobi} viser hovedtrekkene i metoden. Siden målet vårt er å få alle ikke-diagonal elementene til å bli null, setter vi en toleranse \textit{epsilon} = $10^{-8}$. Funksjonen \texttt{maxoffdiag} finner absoluttverdien til det \textbf{største} ikke-diagonal elementet i matrisen A. Dersom denne verdien er større enn tolerasen vi har satt, og vi samtidig \textbf{ikke} har nådd iterasjonsgrensen vår (her satt til $10^6$ iterasjoner), anvender vi Jacobis metode på $A$. Variabelen \textit{iterations} fungerer som en teller som holder oversikt over hvor mange iterasjoner, eller rotasjoner, som er blitt utført på $A$. Slik fortsetter while-løkken frem til elementene på ikke-diagonalen har blitt mindre enn toleransen vår, eller til iterasjonsgrensen er nådd. CPU-tiden til denne prosessen måles enkelt ved hjelp av funksjonen \texttt{clock()}, hentet fra biblioteket \texttt{time.h}.
 
 \FloatBarrier
 \begin{figure}[!ht]
@@ -364,27 +351,25 @@ Denne fremgangsmåten har blitt implementert i koden \texttt{Jacobi.cpp}, som fi
 \FloatBarrier
 
 \subsubsection{To elektroner som vekselvirker}
-Jacobis metode kan også brukes i det tilfellet hvor to elektroner vekselvirker med hverandre via Coulombkrefter. Vi skal se på hva som skjer når vi har $\omega_r$ = 0.01, $\omega_r$ = 0.5, $\omega_r$ = 1 og $\omega_r$ = 5, når vi befinner oss i grunntilstanden med $l$ = 0. Vi skal her se bort fra massesenter-energien $E_R$. Fremgangsmåten for dette oppsettet er tilnærmet likt som i forrige seksjon, så lenge vi husker å endre potensialet fra $\rho$ til $\omega_r^2\rho^2 + 1/\rho $. Diagonalelementene i matrisen $A$ vil da være på formen $d_i = 2/h^2 + \omega_R^2\rho_i^2 + 1/\rho_i$. For de gitte oscillator-frekvensene vet vi at den analytiske løsningen er gitt ved 
-
-HVA DASKJDFSKJFHKSDJF
-
+Jacobis metode kan også brukes i det tilfellet hvor to elektroner vekselvirker med hverandre via Coulombkrefter. Vi skal se på hva som skjer når vi har $\omega_r$ = 0.01, $\omega_r$ = 0.5, $\omega_r$ = 1 og $\omega_r$ = 5, når vi befinner oss i grunntilstanden med $l$ = 0. Vi skal her se bort fra massesenter-energien $E_R$. Fremgangsmåten for dette oppsettet er tilnærmet likt som i forrige seksjon, så lenge vi husker å endre potensialet fra $\rho^2$ til $\omega_r^2\rho^2 + 1/\rho $. Diagonalelementene i matrisen $A$ vil da være på formen $d_i = 2/h^2 + \omega_R^2\rho_i^2 + 1/\rho_i$. 
 
 \subsection{Bruk av Armadillo}
-En annen metode å løse egenverdiproblemet på, er å ved hjelp av Armadillos innebygde funksjon \texttt{eig$\_$sym}. Denne funksjonen finner enkelt eigenverdiene og eigenvektorene vi er ute etter. Funksjonen \texttt{eig$\_$sym(eigenvalues, R, A)} tar inn matrisen $A$ og finner dens eigenverdier og eigenvektorer. Eigenverdiene lagres i vektoren \textit{eigenvalues}, mens eigenvektorene lagres som kolonner i matrisen $R$. Siden vi nå har to ulike løsningsmetoder, kan vi enkelt sammenligne resultatene for å se om de stemmer overens med hverandre.
+En annen metode å løse egenverdiproblemet på, er å ved hjelp av Armadillos innebygde funksjon \texttt{eig$\_$sym}. Denne funksjonen finner enkelt egenverdiene og egenvektorene vi er ute etter. Funksjonen \texttt{eig$\_$sym(eigenvalues, R, A)} tar inn matrisen $A$ og finner dens egenverdier og egenvektorer. Egenverdiene lagres i vektoren \textit{eigenvalues}, mens egenvektorene lagres som kolonner i matrisen $R$. Siden vi nå har to ulike løsningsmetoder, kan vi enkelt sammenligne resultatene for å se om de stemmer overens med hverandre.
 
 
 
 \section{Resultater}
-Tabell \ref{tab:jacobi} og \ref{tab:armadillo} viser resultatene fra Jacobis metode og Armadillo-metoden for ulike verdier av $n$ i tilfellet hvor vi ikke hadde noen vekselvirkning. Her er $\rho_{max}$ = 5.0.
+\subsection{Ett elektron}
+Jacobis metode ble implementert i programmet \texttt{Jacobi.cpp}. Dette programmet inneholder også Armadillos løsning på problemet, slik at vi enkelt kunne sammenligne resultatene fra de to løsningsmetodene. Vi kjenner allerede de tre laveste egenverdiene fra oppgaveteksten [5], nemlig {3,7,11}. Tabell \ref{tab:jacobi} og \ref{tab:armadillo} viser resultatene fra Jacobis metode og Armadillo-metoden for ulike verdier av $n$. Her er $\rho_{max}$ = 5.0.
 
 \FloatBarrier
 \begin{table}[!ht]
 \centering
-\caption{De tre minste eigenverdiene for ulike verdier av $n$, sammen med beregningstiden og antall iterasjoner. Resultatene fra armadillo-metoden er tatt med for sammenligning.}
+\caption{De tre minste egenverdiene for ulike verdier av $n$, sammen med beregningstiden og antall iterasjoner. Verdiene ble funnet ved å kjøre programmet \texttt{Jacobi.cpp}.}
 \label{tab:jacobi}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
-$\textbf{n}$      &  $\textbf{Eigenverdier}_{Jacobi}$ & $\textbf{CPU [s]}$ & $\textbf{Iterasjoner}$ \\ 
+$\textbf{n}$      &  $\textbf{Egenverdier}_{Jacobi}$ & $\textbf{CPU [s]}$ & $\textbf{Iterasjoner}$ \\ 
 \hline
 $10$     & (2.919484, 6.583038, 9.936657) &  0.00022600 & 105               \\ 
 \hline
@@ -405,11 +390,11 @@ $310$ & (2.999919, 6.999596, 10.99921)     &  118.81   & 160 171     \\
 \FloatBarrier
 \begin{table}[!ht]
 \centering
-\caption{Tabellen viser de tre laveste eigenverdiene samt beregningstiden ved bruk av Armadillo-metoden.}
+\caption{Tabellen viser de tre laveste egenverdiene samt beregningstiden ved bruk av Armadillo-metoden. Verdiene ble funnet ved å kjøre programmet \texttt{Jacobi.cpp}.}
 \label{tab:armadillo}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
-\textbf{n}     &  $\textbf{Eigenverdier}_{armadillo}$  &  $\textbf{CPU}_{armadillo} [s]$  \\ 
+\textbf{n}     &  $\textbf{Egenverdier}_{armadillo}$  &  $\textbf{CPU}_{armadillo} [s]$  \\ 
 \hline
 10     & (2.919484,   6.583038,   9.936657)  &8.0000E-05     \\ 
 \hline
@@ -427,17 +412,17 @@ $310$ & (2.999919, 6.999596, 10.99921)     &  118.81   & 160 171     \\
 \end{table}
 \FloatBarrier
 
-
-I tabell \ref{tab:jacobi_interact} vises resultatene for tilfellet \textbf{med} vekselvirkning. Her er $n$ = 200 og $\rho_{max}$ = 5 konstant, mens verdien til $\omega_R$ varierer. 
+\subsection{To elektroner}
+Ved å gjøre en liten endring i potensialet i programmet \texttt{Jacobi.cpp}, kunne vi gå fra ett elektron til \textbf{to} elektroner som vekselvirker. Det nye programmet er kalt \texttt{jacobi$\_$interaction.cpp}, og tabell \ref{tab:jacobi_interact} viser de tre laveste egenverdiene når vi har to elektroner som vekselvirker. Her er $n$ = 200 og $\rho_{max}$ = 5 konstant, mens verdien til $\omega_R$ varierer. 
 
 \FloatBarrier
 \begin{table}[!ht]
 \centering
-\caption{I tabellen vises de numerisk beregnede eigenverdiene til grunntilstanden for ulike verdier av oscillatorrekvensen $\omega_R$, sammen med den tilnærmede og eksakte løsningen.}
+\caption{I tabellen vises de numerisk beregnede egenverdiene til grunntilstanden for ulike verdier av oscillatorrekvensen $\omega_R$. Verdiene ble funnet ved hjelp av programmet \texttt{jacobi$\_$interaction.cpp}. Her er $n$ = 200 og $\rho_{max}$ = 5. }
 \label{tab:jacobi_interact}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
-$\omega_R$  &  $\textbf{Eigenverdi (numerisk)}$   \\ 
+$\omega_R$  &  $\textbf{Egenverdi (numerisk)}$   \\ 
 \hline
 0.01     & 0.8407035     \\ 
 \hline
@@ -451,41 +436,80 @@ $\omega_R$  &  $\textbf{Eigenverdi (numerisk)}$   \\
 \end{table}
 \FloatBarrier
 
+Figur \ref{fig:0_01OFF} viser et plot \textit{sannsynlighetsfordelingen}, dvs $|u(\rho)|^2$, til de tre laveste bølgefunksjonene $u(\rho)$ for de to elektronene, som funksjon av den relative koordinaten $r$. I dette tilfellet er $\omega_R$ = 0.01, og $\rho_{max}$ = 5. Her er det \textbf{ingen} Coulomb-vekselvirkning, og bølgefunksjonene er normert. Programmet \texttt{2e.cpp} bruker Armadillos funksjon \texttt{eig$\_$sym} til å finne egenverdiene for ulike verdier av $n$, og skriver resultatene til en .txt fil. Programmet \texttt{2e$\_$plot.py} leser inn verdiene fra .txt filen og plotter resultatene.
+
+\FloatBarrier
+\begin{figure}[!ht]
+  \begin{center}
+  \includegraphics[width = 110mm]{2e_0_01_OFF.png}\\
+  \caption{Plottet viser sannsynlighetsfordelingen til de to elektronene når vi ikke har noen Coulomb-vekselvirkning. $\omega_R$ er satt til 0.01, mens $\rho_{max}$ er 5. Plottet ble produsert ved hjelp av programmene \texttt{2e.cpp} og \texttt{2e$\_$plot.py}.}\label{fig:0_01OFF}
+  \end{center}
+\end{figure}
+\FloatBarrier
+
+Ved å gjøre en liten ending i uttrykket for potensialet i programmet \texttt{2e.cpp}, kunne vi plotte sannsynlghetsfordelingen til de tre laveste bølgefunksjonene \textit{med} Coulomb-vekselvirkning, som vist i figur 4. Dette ble gjort for ulike verdier av $\omega_R$, nemlig 0.01, 0.5, 1 og 5. Bølgefunksjonene er normert.
+
+\FloatBarrier
+\begin{figure}[!ht]
+\begin{subfigure}{.6\textwidth}
+  \includegraphics[width=1.1\linewidth]{2e_0_01_ON.png}
+  \label{fig:sfig1}
+\end{subfigure}
+\begin{subfigure}{.6\textwidth}
+  \includegraphics[width=1.1\linewidth]{2e_0_5_ON.png}
+  \label{fig:sfig2}
+\end{subfigure}
+\label{fig:animasjon}
+\end{figure}
+\FloatBarrier
+
+\FloatBarrier
+\begin{figure}[!ht]
+\begin{subfigure}{.6\textwidth}
+  %\centering
+  \includegraphics[width=1.1\linewidth]{2e_1_ON.png}
+  \label{fig:sfig1}
+\end{subfigure}%
+\begin{subfigure}{.6\textwidth}
+  %\centering
+  \includegraphics[width=1.1\linewidth]{2e_5_ON.png}
+  \label{fig:sfig2}
+\end{subfigure}
+\label{fig:animasjon}
+\caption{Sannsynlighetsfordelingen for de tre laveste bølgefunksjonene som funksjon av $\rho$. $\omega_R$ har verdien 0.01, 0.5, 1 og 5, mens $\rho_{max}$ går fra å være hhv 50, 8, 5 og 2. Plottene ble produsert ved hjelp av programmene \texttt{2e.cpp} og \texttt{2e$\_$plot.py}.}
+\end{figure}
+\FloatBarrier
+
+
 \section{Diskusjon}
-2b)
+Vi ser av tabell \ref{tab:jacobi} at implementasjonen av Jacobis metode ga oss resultater som stemte godt overens med de kjente egenverdiene {3, 7, 11}. Likevel var dette en tidkrevende prosess, særlig for høye $n$-verdier. Når $n$ = 310, var CPU-tiden på nesten 2 minutter. Til sammenligning brukte Armadillo-metoden kun 0.04 sekunder for samme $n$-verdi. De to løsningsmetodene kom frem til de samme resultatene, men på grunn av den betraktelige forskjellen i beregningstid, valgte jeg å bruke Armadillo-metoden i resten av prosjektet. \\
 
-Vi ser av tabell \ref{tab:jacobi} at vi trengte $n \approx$ 200 grid-points for å få de tre laveste eigenverdiene med fire gjeldende siffere etter desimalen. Vi satte da $\rho_{max} = 5.0$.\\
+I tillegg ser vi av tabell \ref{tab:jacobi} at vi trengte $n \approx$ 300 grid-points for at de tre laveste egenverdiene skulle stemme med fire gjeldende siffere etter desimalen. Vi satte da $\rho_{max} = 5.0$.\\
 
-Antallet iterasjoner, eller rotasjoner, som trengtes før alle ikke-diagonal elementene ble tilnærmet lik null varierte med antall grid-points $n$. I tilfellet hvor $n = 200$ trengte vi 66 065 iterasjoner. Vi kan finne en funksjon som forteller oss om antall iterasjoner som funksjon av størrelsen på matrisen. En liten regresjonsanalyse av resultatene i tabell \ref{tab:jacobi} gir oss noe à la
+Antallet iterasjoner, eller rotasjoner, som trengtes før alle ikke-diagonal elementene ble tilnærmet lik null varierte med antall grid-points $n$. I tilfellet hvor $n = 300$ trengte vi 149 879 iterasjoner. Vi kan finne en funksjon som forteller oss om antall iterasjoner som funksjon av størrelsen $n$ på matrisen. En liten regresjonsanalyse av resultatene i tabell \ref{tab:jacobi} gir oss en funksjon på formen
 \[ iterasjoner = 1.69n^2 - 7.9n + 29.8 \] 
 
-aser at vi får de samme egenverdiene, noe som er betryggende. MEN betraktelig forskjell i beregningstid. arma
+For å gjøre en matrise $A^{n \times n}$ diagonal, bruker Jacobis metode altså omkring 1.7$n^2$ iterasjoner (eller rotasjoner). Vanligvis vil en slik algoritme bruke mellom 3$n^2$ og 5$n^2$ iterasjoner på en generell matrise uten null-elemetner. I vårt tilfelle var matrisen tridiagonal, slik at vi ikke trengte fullt så mange iterasjoner. Vi har likevel fått erfare at Jacobis metode er ganske tidkrevende i forhold til andre metoder som baserer seg på tridiagonale matriser. Dette kommer av at vi ved en rotasjon kan risikere at et tidligere null element endres til et ikke-null element. Dette vil helt klart sinke prosessen, men er altså et vanlig problem i Jacobis metode [3].\\
+ 
+Det ble også utført noen enhetstester underveis for å sikre oss et fungerende program og at vi fikk ut riktige resultater. Disse testene kan finnes i programmet \texttt{Jacobi.cpp}. Den første testen gikk ut på å sjekke om funksjonen \texttt{maxoffdiag} returnerte de riktige elementene. Funksjonens oppgave var å finne absoluttverdien til det største ikke-diagonal elementet. Ved hjelp av en kjent 5$\times$5-matrise så vi at funksjonen ga oss riktig svar ut. I den andre testen så vi nærmere på funksjonen \texttt{jacobi$\_$method}, som brukte Jacobis metode til å finne egenverdiene til en gitt matrise. Vi testet funksjonen på en kjent 3$\times$3-matrise, hvor egenverdiene allerede var kjent ved hjelp av MATLAB sin funksjon \texttt{eig()}. Det viste seg at \texttt{jacobi$\_$method} returnerte egenverdier som lå ganske nær egenverdiene funnet i MATLAB. Testen kunne muligens blitt gjort på en større matrise for mer nøyaktige resultater.\\
 
-The convergence rate of the Jacobi method is however poor, one needs typically 3n2 - 5n2 ro- tations and each rotation requires 4n operations, resulting in a total of 12n3 - 20n3 operations in order to zero out non-diagonal matrix elements. Although the classical Jacobi algorithm performs badly compared with methods based on tridiagonalization, it is easy to parallelize.
-The slow convergence is related to the fact that when a new rotation is performed, matrix elements which were previously zero, may change to non-zero values in the next rotation.
+Dersom vi sammenligner plottet av de tre laveste bølgefunksjonene med og uten vekselvirkning (figur \ref{fig:0_01OFF} og første plot i figur 4) for en gitt $\omega_R$=0.01, ser vi at bølgefunksjonene \textit{uten} vekselvirkning ligger mye tettere enn bølgefunksjonene \textit{med} vekselvirkning. Hvis vi tar en kikk på plottene i figur 4 av de tre laveste bølgefunksjonene for to vekselvirkende elektroner, ser vi at jo mindre $\omega_R$ var, jo større ble $\rho_{max}$. Store deler av denne oppgaven besto i å justere $\rho_{max}$ som funksjon av $\omega_R$. Dette ble gjort ved å observere plottene av sannsynlighetsfordelingen. Parameteren $\omega_R$ angir nemlig styrken på oscillator-potensialet. Dersom vi øker $\omega_R$, vil vi kunne se at de tre laveste tilstandene presses tettere sammen. Vi kunne også se at når vi skrudde på vekselvirkningen, lå tilstandene mer spredt og hadde derfør en større utstrekning $\rho_{max}$. Oppførselen er derfor i tråd med det vi kan forvente av et slikt fysisk system, da vekselvirkningen er en frastøtende kraft.
 
- "Comment your results (here you could for example compute the time needed for both algorithms for a given dimensionality of the matrix)."
- jævlig treig
- 
- 2c) unit test: bra
- 
- 2d) Kommenter resultatene for den laveste egenverdien (tilstanden) som funksjon av ulike omega. Hva er trenden? tilstanden øker jo større omega (oscillatorfrekvens). Hvorfor? 
- Sammenlign med resultatene fra artikkelen...
- 
 
 \section{Konklusjon}
-fgddfg
+Vi har i dette prosjektet har vi sett nærmere på hvordan vi kan finne bølgefunksjonene til hhv ett -og to elektroner i et harmonisk oscillator-potensiale. Problemstillingen kunne omformes til et egenverdi-problem, som kunne løses med Jacobis metode. I tillegg kunne vi løse samme problem ved hjelp av Armadillos innebygde funksjon \texttt{eig$\_$sym}. Både Jacobis metode og Armadillo metoden kom frem til de samme egenverdiene. Etter å ha målt de to metodenes CPU-tid, fant vi ut at Armadillo-metoden var overlegen i forhold til Jacobis metode. \\
 
+Vi har sett at vi enkelt kan gå fra et system med ett elektron til to elektroner. Dette ble gjort ved å endre den potensielle energien fra $\rho^2$ til $\omega_r^2\rho^2 + 1/\rho $. Vi fikk da se hvilken effekt dette hadde på bølgefunksjonene. Coulomb-vekselvirkningen mellom elektronene resulterte i at bølgefunksjonene strakte seg lenger ut i radiell retning, som forventet. 
 
 \section{Vedlegg}
-Alle koder og resultater som er brukt i rapporten finnes på Github-adressen: https://github.com/livewj/Project-1
+Alle koder og resultater som er brukt i rapporten finnes på Github-adressen: https://github.com/livewj/Project2
 
 
 
 \bibliography{Referanser}
-\begin{thebibliography}{9}
+\begin{thebibliography}{9}  
 
-\bibitem{squires}
+\bibitem{}
   Kursets offisielle Github-side $\textit{FYS3150 - Computational Physics}$
   https://github.com/CompPhysics/ComputationalPhysics,
   03.09.2016  
@@ -499,7 +523,13 @@ Alle koder og resultater som er brukt i rapporten finnes på Github-adressen: ht
    
 \bibitem{}
    M. Hjort-Jensen: Computational physics, lecture notes 2015. Fysisk institutt, UiO, 2016.
+   
+\bibitem{}
+     Armadillo C++ linear algebra library:
+     http://arma.sourceforge.net/docs.html, 01.10.16
 
+\bibitem{}
+   Oppgavetekst: Project 2, Fysisk institutt, UiO, 01.10.16
    
 \end{thebibliography}
 

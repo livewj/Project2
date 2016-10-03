@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2015.2.13)  30 SEP 2016 11:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2015.2.13)  3 OCT 2016 23:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -415,6 +415,30 @@ File: lstlang1.sty 2014/03/04 1.5c listings language file
 )
 (./Prosjekt2.aux
 
+LaTeX Warning: Label `fig:sfig1' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:sfig1' multiply defined.
+
+
+LaTeX Warning: Label `fig:sfig2' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:sfig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:animasjon' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
 LaTeX Warning: Label `' multiply defined.
 
 )
@@ -528,98 +552,192 @@ Overfull \hbox (13.88968pt too wide) in paragraph at lines 62--63
 en Coulomb-vekselvirkning.
  []
 
+[1
 
+{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 Overfull \hbox (8.3061pt too wide) in paragraph at lines 86--87
 []\OT1/cmr/m/n/10 Vi skal i det f^^\lgende anta at de to elek-tronene befinner 
 seg i et tre-dimensjonalt
  []
 
-[1
 
-{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 Underfull \hbox (badness 10000) in paragraph at lines 104--105
 
  []
 
-[2] [3] [4] [5] [6] [7] <jacobi_method.png, id=40, 650.43pt x 231.86626pt>
+[2] [3] [4] [5] [6] [7] <jacobi_method.png, id=45, 650.43pt x 231.86626pt>
 File: jacobi_method.png Graphic file (type png)
 
 <use jacobi_method.png>
-Package pdftex.def Info: jacobi_method.png used on input line 360.
+Package pdftex.def Info: jacobi_method.png used on input line 347.
 (pdftex.def)             Requested size: 369.88582pt x 131.86086pt.
 
-Overfull \hbox (24.88582pt too wide) in paragraph at lines 360--360
+Overfull \hbox (24.88582pt too wide) in paragraph at lines 347--347
  [] 
  []
 
-[8 <./jacobi_method.png>] [9]
-Underfull \hbox (badness 10000) in paragraph at lines 457--458
+[8 <./jacobi_method.png>] [9] <2e_0_01_OFF.png, id=54, 578.16pt x 433.62pt>
+File: 2e_0_01_OFF.png Graphic file (type png)
+
+<use 2e_0_01_OFF.png>
+Package pdftex.def Info: 2e_0_01_OFF.png used on input line 444.
+(pdftex.def)             Requested size: 312.9803pt x 234.73357pt.
+ [10] <2e_0_01_ON.png, id=58, 578.16pt x 433.62pt>
+File: 2e_0_01_ON.png Graphic file (type png)
+
+<use 2e_0_01_ON.png>
+Package pdftex.def Info: 2e_0_01_ON.png used on input line 455.
+(pdftex.def)             Requested size: 227.70357pt x 170.77185pt.
+
+Overfull \hbox (20.70146pt too wide) in paragraph at lines 455--457
+[][]
+ []
+
+<2e_0_5_ON.png, id=59, 578.16pt x 433.62pt>
+File: 2e_0_5_ON.png Graphic file (type png)
+ <use 2e_0_5_ON.png>
+Package pdftex.def Info: 2e_0_5_ON.png used on input line 459.
+(pdftex.def)             Requested size: 227.70357pt x 170.77185pt.
+
+Overfull \hbox (20.70146pt too wide) in paragraph at lines 459--461
+[][]
+ []
+
+
+Overfull \hbox (71.22643pt too wide) in paragraph at lines 454--463
+[]$[]$ $[]$
+ []
+
+[11 <./2e_0_01_OFF.png>] <2e_1_ON.png, id=64, 578.16pt x 433.62pt>
+File: 2e_1_ON.png Graphic file (type png)
+
+<use 2e_1_ON.png>
+Package pdftex.def Info: 2e_1_ON.png used on input line 470.
+(pdftex.def)             Requested size: 227.70357pt x 170.77185pt.
+
+Overfull \hbox (20.70146pt too wide) in paragraph at lines 470--472
+[][]
+ []
+
+<2e_5_ON.png, id=65, 578.16pt x 433.62pt>
+File: 2e_5_ON.png Graphic file (type png)
+ <use 2e_5_ON.png>
+Package pdftex.def Info: 2e_5_ON.png used on input line 475.
+(pdftex.def)             Requested size: 227.70357pt x 170.77185pt.
+
+Overfull \hbox (20.70146pt too wide) in paragraph at lines 475--477
+[][]
+ []
+
+
+Overfull \hbox (69.00421pt too wide) in paragraph at lines 468--479
+[]$[]$$[]$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 485--486
+
+ []
+
+[12 <./2e_0_01_ON.png> <./2e_0_5_ON.png> <./2e_1_ON.png> <./2e_5_ON.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 487--488
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 492--493
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 494--495
+
+ []
+
+[13]
+Overfull \hbox (20.33401pt too wide) in paragraph at lines 500--501
+\OT1/cmr/m/n/10 Vi har i dette pros-jek-tet har vi sett n^^Zrmere p^^Wa hvor-da
+n vi kan finne b^^\lgefunksjonene
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 500--501
 
  []
 
 No file Prosjekt2.bbl.
 
-Underfull \hbox (badness 10000) in paragraph at lines 485--488
+Underfull \hbox (badness 10000) in paragraph at lines 513--516
 []\OT1/cmr/m/n/10 Kursets off-isielle Github-side $[]$
  []
 
-[10]
-Underfull \hbox (badness 3375) in paragraph at lines 490--495
+
+Underfull \hbox (badness 3375) in paragraph at lines 518--523
 []\OT1/cmr/m/n/10 Slides fra kursets off-isielle nett-side "Ma-tri-ces and lin-
 ear al-ge-bra":
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 490--495
+Underfull \hbox (badness 10000) in paragraph at lines 518--523
 \OT1/cmr/m/n/10 http://compphysics.github.io/ComputationalPhysics/doc/web/cours
 e,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 490--495
+Underfull \hbox (badness 10000) in paragraph at lines 518--523
 \OT1/cmr/m/n/10 24.09.16 "How to write a sci-en-tific project, with ex-am-ples"
 :
  []
 
 
-Overfull \hbox (127.41779pt too wide) in paragraph at lines 490--495
+Overfull \hbox (127.41779pt too wide) in paragraph at lines 518--523
 \OT1/cmr/m/n/10 http://compphysics.github.io/ComputationalPhysics/doc/pub/proje
 ctwriting/html/projectwriting.html,
  []
 
-[11] (./Prosjekt2.aux)
+
+Overfull \hbox (9.77856pt too wide) in paragraph at lines 528--530
+[]\OT1/cmr/m/n/10 Armadillo C++ lin-ear al-ge-bra li-brary: http://arma.sourcef
+orge.net/docs.html,
+ []
+
+[14] (./Prosjekt2.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 5113 strings out of 493117
- 74901 string characters out of 6135433
- 180173 words of memory out of 5000000
- 8492 multiletter control sequences out of 15000+600000
- 11797 words of font info for 43 fonts, out of 8000000 for 9000
+ 5157 strings out of 493117
+ 75582 string characters out of 6135433
+ 177173 words of memory out of 5000000
+ 8526 multiletter control sequences out of 15000+600000
+ 13315 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,12n,40p,1294b,322s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,12n,40p,1292b,384s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></
 usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
 sr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
 r/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
-local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
-cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loca
-l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/
-texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/tex
-live/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texliv
-e/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2
-014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
-14/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2014
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2014/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Prosjekt2.pdf (11 pages, 235512 bytes).
+local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/lo
+cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loca
+l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/
+texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/te
+xlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texli
+ve/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/
+2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/201
+4/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2014
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2014/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2014/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2014/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2014/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2014/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on Prosjekt2.pdf (14 pages, 588146 bytes).
 PDF statistics:
- 107 PDF objects out of 1000 (max. 8388607)
- 75 compressed objects within 1 object stream
+ 143 PDF objects out of 1000 (max. 8388607)
+ 94 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
